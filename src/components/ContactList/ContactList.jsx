@@ -1,12 +1,13 @@
-import { useSelector } from 'react-redux';
-import { selectFilteredContacts } from '../../redux/contactsSlice'; 
 import css from './ContactList.module.css';
 import Contact from '../Contact/Contact';
+import { useSelector } from 'react-redux';
+import { selectFilteredContacts } from '../../redux/contacts/contactsSlice';
 
 const ContactList = () => {
-  const filteredContacts = useSelector(selectFilteredContacts); 
+  const filteredContacts = useSelector(selectFilteredContacts);
+
   if (!Array.isArray(filteredContacts)) {
-    return <div>Error: Contacts data is not an array </div>;
+    return <div>Error: Contacts data is not an array.</div>;
   }
 
   return (
@@ -16,7 +17,7 @@ const ContactList = () => {
           <Contact key={contact.id} contact={contact} />
         ))
       ) : (
-        <li>No contacts available </li>
+        <li>No contacts available.</li>
       )}
     </ul>
   );
