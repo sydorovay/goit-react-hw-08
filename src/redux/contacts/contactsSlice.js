@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from './contactsOps'; // Імпортуємо асинхронні операції
+import { fetchContacts, addContact, deleteContact } from '../contactsOps'; // Імпортуємо асинхронні операції
 
 const initialState = {
   items: [],
@@ -58,7 +58,7 @@ export const selectLoading = (state) => state.contacts.loading;
 export const selectError = (state) => state.contacts.error;
 
 // Імпортуємо мемоізований селектор для фільтрованих контактів
-import { selectNameFilter } from './filtersSlice'; 
+import { selectNameFilter } from '../filters/filtersSlice'; 
 
 // Мемоізований селектор для фільтрованих контактів
 export const selectFilteredContacts = createSelector(
