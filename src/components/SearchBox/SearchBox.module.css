@@ -1,0 +1,26 @@
+.searchBox {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 20px 0px;
+  margin: 20px 0px;
+}
+
+.searchBox input {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+}
+
+.searchBox input:hover {
+  border-color: #5787BD;
+}
+
+.searchBox input:focus {
+  border-color: #5787BD;
+}
+
+.searchHeader {
+  margin: 10px 0px;
+  font-size: 24px;
+}
