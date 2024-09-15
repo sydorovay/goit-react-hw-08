@@ -1,24 +1,20 @@
-import css from './ContactList.module.css';
-import Contact from '../Contact/Contact';
 import { useSelector } from 'react-redux';
-import { selectFilteredContacts } from '../../redux/contacts/contactsSlice';
+import { selectNormalizedFilter } from '../../redux/filters/selectors';
+import ContactListItem from './ContactListItem'; // Приклад компонента для відображення одного контакту
 
-const ContactList = () => {
-  const filteredContacts = useSelector(selectFilteredContacts);
+const ContactList = ({ contacts }) => {
+  const normalizedFilter = useSelector(selectNormalizedFilter);
 
-  if (!Array.isArray(filteredContacts)) {
-    return <div>Error: Contacts data is not an array.</div>;
-  }
+  // Фільтруємо контакти на основі нормалізованого фільтра
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizedFilter)
+  );
 
   return (
-    <ul className={css.contactList}>
-      {filteredContacts.length > 0 ? (
-        filteredContacts.map(contact => (
-          <Contact key={contact.id} contact={contact} />
-        ))
-      ) : (
-        <li>No contacts available.</li>
-      )}
+    <ul>
+      {filteredContacts.map(contact => (
+        <ContactListItem key={contact.id} contact={contact} />
+      ))}
     </ul>
   );
 };

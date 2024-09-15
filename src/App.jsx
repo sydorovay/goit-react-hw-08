@@ -1,27 +1,25 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchContacts } from './redux/contactsOps';
-import ContactForm from './components/ContactForm/ContactForm';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactList from './components/ContactList/ContactList';
-import css from './App.module.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import ContactsPage from './pages/ContactsPage/ContactsPage';
+import Layout from './components/Layout/Layout';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 
-const App = () => {
-  const dispatch = useDispatch();
-
-  // Виконання запиту при завантаженні додатка
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
+function App() {
   return (
-    <div className={css.appContainer}>
-      <h1 className={css.title}>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RestrictedRoute component={RegistrationPage} />} />
+          <Route path="/login" element={<RestrictedRoute component={LoginPage} />} />
+          <Route path="/contacts" element={<PrivateRoute component={ContactsPage} />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
-};
+}
 
 export default App;
