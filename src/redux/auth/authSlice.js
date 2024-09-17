@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, login, logout, refreshUser } from './operations';
+import { register, login, logout, refreshUser } from './operations'; // Перевір цей рядок
 
-// Початковий стан auth
 const initialState = {
   user: {
     name: null,
@@ -12,7 +11,6 @@ const initialState = {
   isRefreshing: false,
 };
 
-// Створення слайсу
 const authSlice = createSlice({
   name: 'auth',
   initialState,

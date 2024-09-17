@@ -1,15 +1,15 @@
+import ContactForm from '../../components/ContactForm/ContactForm';
 import ContactList from '../../components/ContactList/ContactList';
-import Filter from '../../components/Filter/Filter';
+import styles from './ContactsPage.module.css';
+import SearchBox from '../../components/SearchBox/SearchBox';
 
 const ContactsPage = () => {
-  const contacts = [
-  ];
-
   return (
-    <div>
+    <div className={styles.contactsPage}>
+      <SearchBox />
       <h1>Contacts</h1>
-      <Filter />
-      <ContactList contacts={contacts} />
+      <ContactForm />
+      <ContactList />
     </div>
   );
 };

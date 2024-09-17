@@ -12,7 +12,7 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, thu
   }
 });
 
-export const addContact = createAsyncThunk('contacts/addContact', async (contact, thunkAPI) => {
+export const addNewContact = createAsyncThunk('contacts/add', async (contact, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -30,7 +30,7 @@ export const addContact = createAsyncThunk('contacts/addContact', async (contact
   }
 });
 
-export const deleteContact = createAsyncThunk('contacts/deleteContact', async (id, thunkAPI) => {
+export const deleteContact = createAsyncThunk('contacts/delete', async (contactId, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -39,10 +39,10 @@ export const deleteContact = createAsyncThunk('contacts/deleteContact', async (i
   }
 
   try {
-    await axios.delete(`/contacts/${id}`, {
+    await axios.delete(`/contacts/${contactId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    return { id };
+    return { id: contactId };
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }

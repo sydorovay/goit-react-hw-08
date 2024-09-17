@@ -1,19 +1,17 @@
 import { useSelector } from 'react-redux';
-import { selectNormalizedFilter } from '../../redux/filters/selectors';
-import ContactListItem from './ContactListItem'; // Приклад компонента для відображення одного контакту
+import { selectFilteredContacts } from '../../redux/contacts/selectors'; 
 
-const ContactList = ({ contacts }) => {
-  const normalizedFilter = useSelector(selectNormalizedFilter);
+const ContactList = () => {
+  const contacts = useSelector(selectFilteredContacts);
 
-  // Фільтруємо контакти на основі нормалізованого фільтра
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
+  if (!contacts || contacts.length === 0) {
+    return <p>No contacts found</p>;
+  }
 
   return (
     <ul>
-      {filteredContacts.map(contact => (
-        <ContactListItem key={contact.id} contact={contact} />
+      {contacts.map(contact => (
+        <li key={contact.id}>{contact.name}: {contact.number}</li>
       ))}
     </ul>
   );

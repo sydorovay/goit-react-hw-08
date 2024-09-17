@@ -3,18 +3,18 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global';
 
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+export const registerUser = createAsyncThunk('auth/register', async (credentials, thunkAPI) => {
   try {
-    const response = await axios.post('/users/signup', user);
+    const response = await axios.post('/users/signup', credentials);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
   try {
-    const response = await axios.post('/users/login', user);
+    const response = await axios.post('/users/login', credentials);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -32,9 +32,11 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth.token;
-  if (token === null) {
-    return thunkAPI.rejectWithValue();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No token');
   }
+
   try {
     const response = await axios.get('/users/current', {
       headers: { Authorization: `Bearer ${token}` }
