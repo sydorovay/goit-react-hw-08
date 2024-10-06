@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setCurrentUser } from './authSlice';
+import { setCurrentUser, loginSuccess  } from './authSlice';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 
@@ -14,8 +14,9 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (credentials) => {
+  async (credentials, { dispatch }) => {
     const response = await axios.post('/users/login', credentials);
+    dispatch(loginSuccess(response.data));
     return response.data;
   }
 );
@@ -63,3 +64,4 @@ export const refreshUser = createAsyncThunk(
     return response.data;
   }
 );
+

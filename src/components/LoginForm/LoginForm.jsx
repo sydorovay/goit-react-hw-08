@@ -8,12 +8,13 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(login({ email, password }));
-    setEmail('');
-    setPassword('');
-  };
+ const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log({ email, password }); // Перевірка, що дані відправляються
+  dispatch(login({ email, password }));
+  setEmail('');
+  setPassword('');
+};
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
