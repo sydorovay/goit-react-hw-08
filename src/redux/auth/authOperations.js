@@ -38,15 +38,15 @@ export const getCurrentUserThunk = () => async (dispatch, getState) => {
   try {
     const response = await axios.get('/users/current', {
       headers: {
-        Authorization: `Bearer ${token}`, // Виправлено: добавлено `` для вставки змінної
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    dispatch(setCurrentUser(response.data)); // Використовуй setCurrentUser для зберігання даних
+    dispatch(setCurrentUser(response.data));
   } catch (error) {
     console.error('Error fetching current user:', error);
   }
-}; 
+};
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
@@ -54,11 +54,12 @@ export const refreshUser = createAsyncThunk(
     const state = getState();
     const token = state.auth.token;
 
-    if (token === null) {
+    if (!token) {
       return;
     }
 
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`; const response = await axios.get('/users/current');
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    const response = await axios.get('/users/current');
     return response.data;
   }
 );

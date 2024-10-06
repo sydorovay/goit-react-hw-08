@@ -1,5 +1,5 @@
-import { Route, Routes} from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getCurrentUserThunk } from './redux/auth/authOperations';
 import Layout from './components/Layout/Layout';
@@ -10,20 +10,15 @@ import ContactsPage from './pages/ContactsPage/ContactsPage';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
-import { selectCurrentUser } from './redux/auth/authSelectors';
-
 const App = () => {
   const dispatch = useDispatch();
-  const isCurrentUser = useSelector(selectCurrentUser); 
-
 
   useEffect(() => {
-    dispatch(getCurrentUserThunk()); // Виклик thunk для отримання поточного користувача
-  }, [dispatch]); 
-  console.log(isCurrentUser);
+    dispatch(getCurrentUserThunk());
+  }, [dispatch]);
 
   return (
-    <Routes> 
+    <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route
