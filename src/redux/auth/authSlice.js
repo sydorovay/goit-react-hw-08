@@ -12,6 +12,9 @@ const authSlice = createSlice({
     isRefreshing: false,
   },
   reducers: {
+    setCurrentUser(state, action) {
+      state.user = action.payload;
+    },
     registerSuccess(state, action) {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -34,5 +37,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { registerSuccess, loginSuccess, logoutSuccess, refreshSuccess } = authSlice.actions;
+export const { registerSuccess, loginSuccess, logoutSuccess, refreshSuccess, setCurrentUser} = authSlice.actions;
 export default authSlice.reducer;

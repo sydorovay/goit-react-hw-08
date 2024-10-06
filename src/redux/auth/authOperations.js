@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { setCurrentUser } from './authSlice';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 
@@ -26,28 +27,26 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const getCurrentUserThunk = createAsyncThunk(
-  'auth/refresh',
-  async (_, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const token = state.auth.token;
+export const getCurrentUserThunk = () => async (dispatch, getState) => {
+  const state = getState();
+  const token = state.auth.token;
 
-    if (!token) {
-      return thunkAPI.rejectWithValue('No token found');
-    }
-
-    try {
-      const response = await axios.get('/users/current', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+  if (!token) {
+    return;
   }
-);
+
+  try {
+    const response = await axios.get('/users/current', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Виправлено: добавлено `` для вставки змінної
+      },
+    });
+
+    dispatch(setCurrentUser(response.data)); // Використовуй setCurrentUser для зберігання даних
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+  }
+}; 
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
@@ -59,8 +58,7 @@ export const refreshUser = createAsyncThunk(
       return;
     }
 
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    const response = await axios.get('/users/current');
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`; const response = await axios.get('/users/current');
     return response.data;
   }
 );

@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Routes} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getCurrentUserThunk } from './redux/auth/authOperations';
@@ -16,12 +16,14 @@ const App = () => {
   const dispatch = useDispatch();
   const isCurrentUser = useSelector(selectCurrentUser); 
 
+
   useEffect(() => {
-    dispatch(getCurrentUserThunk()); // Викликаємо thunk для отримання поточного користувача
-  }, [dispatch]);
+    dispatch(getCurrentUserThunk()); // Виклик thunk для отримання поточного користувача
+  }, [dispatch]); 
+  console.log(isCurrentUser);
 
   return (
-    <Routes> {/* Вже підключений Router у верхньому компоненті */}
+    <Routes> 
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route
