@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactsOps'; // Імпортуємо операцію з правильного файлу
+import { deleteContact } from '../../redux/contacts/contactsOperations';
 import css from './Contact.module.css';
 
 const Contact = ({ contact }) => {

@@ -1,38 +1,45 @@
-// src/components/LoginForm/LoginForm.jsx
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/auth/operations';
+import { login } from '../../redux/auth/authOperations';
 import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(login({ email, password }));
+    setEmail('');
+    setPassword('');
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <label htmlFor="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Login</button>
+      <label className={styles.label}>
+        Email
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className={styles.input}
+        />
+      </label>
+      <label className={styles.label}>
+        Password
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className={styles.input}
+        />
+      </label>
+      <button type="submit" className={styles.button}>
+        Login
+      </button>
     </form>
   );
 };

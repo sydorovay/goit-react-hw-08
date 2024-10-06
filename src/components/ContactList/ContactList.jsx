@@ -1,17 +1,15 @@
 import { useSelector } from 'react-redux';
-import { selectFilteredContacts } from '../../redux/contacts/selectors'; 
+import ContactListItem from './ContactListItem'
+import { selectFilteredContacts } from '../../redux/contacts/contactsSelectors';
+import styles from './ContactList.module.css';
 
 const ContactList = () => {
   const contacts = useSelector(selectFilteredContacts);
 
-  if (!contacts || contacts.length === 0) {
-    return <p>No contacts found</p>;
-  }
-
   return (
-    <ul>
-      {contacts.map(contact => (
-        <li key={contact.id}>{contact.name}: {contact.number}</li>
+    <ul className={styles.contactList}>
+      {contacts.map(({ id, name, number }) => (
+        <ContactListItem key={id} id={id} name={name} number={number} />
       ))}
     </ul>
   );
