@@ -23,13 +23,18 @@ export const login = createAsyncThunk(
     return response.data;
   }
 );
+
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (_, { dispatch }) => {
-    await axios.post('/users/logout');
-    // Видаляємо токен з заголовків після виходу
-    delete axios.defaults.headers.common.Authorization;
-    dispatch(logoutSuccess());
+  async (_, { getState, dispatch }) => {
+    const state = getState();
+    const token = state.auth.token;  // Отримуємо токен з Redux
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      await axios.post('/users/logout');
+      delete axios.defaults.headers.common.Authorization;
+      dispatch(logoutSuccess());
+    }
   }
 );
 
