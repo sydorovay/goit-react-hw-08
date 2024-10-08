@@ -1,15 +1,31 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchContacts } from '../../redux/contacts/contactsOperations'; 
 import { selectContacts } from '../../redux/contacts/contactsSelectors';
 
 const ContactsPage = () => {
+  const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
-    <ul>
-      {contacts.map((contact) => (
-        <li key={contact.id}>{contact.name} - {contact.email}</li>
-      ))}
-    </ul>
+    <div>
+      <h2>Contacts</h2>
+      {contacts.length === 0 ? (
+        <p>No contacts available</p>
+      ) : (
+        <ul>
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+              {contact.name} - {contact.email}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
