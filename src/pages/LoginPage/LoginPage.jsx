@@ -12,12 +12,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form with:", { email, password });
     try {
       await dispatch(login({ email, password })).unwrap();
       navigate('/contacts');
     } catch (error) {
-      setErrorMessage('Login failed. Please check your credentials.');
+      // Виводимо специфічне повідомлення про помилку
+      setErrorMessage(error.response?.data?.message || 'Login failed. Please check your credentials.');
       console.error('Login failed: ', error);
     }
   };

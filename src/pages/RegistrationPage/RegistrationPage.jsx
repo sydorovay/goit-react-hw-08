@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'; 
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 
@@ -6,6 +6,7 @@ const RegistrationPage = () => {
   const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({ name: '', email: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // Додано для успішного повідомлення
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,13 +17,17 @@ const RegistrationPage = () => {
     e.preventDefault();
     try {
       await dispatch(register(credentials)).unwrap();
+      setSuccessMessage('ВYou have been successfully registeredі!'); // Повідомлення про успішну реєстрацію
+      setErrorMessage(''); // Скидаємо повідомлення про помилку
     } catch (error) {
       setErrorMessage(error.message);
+      setSuccessMessage(''); // Скидаємо повідомлення про успішну реєстрацію
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} {/* Показуємо повідомлення про успіх */}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <input
         type="text"

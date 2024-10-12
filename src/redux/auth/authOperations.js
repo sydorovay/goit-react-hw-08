@@ -7,17 +7,18 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 export const register = createAsyncThunk(
   'auth/register',
-  async (credentials, { rejectWithValue }) => {
+  async (credentials) => {
     try {
       const response = await axios.post('/users/signup', credentials);
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        if (error.response.data.code === 11000) {
-          return rejectWithValue('Email already in use');
+        const { keyPattern } = error.response.data;
+        if (keyPattern && keyPattern.email) {
+          throw new Error('This email address is already registered.');
         }
       }
-      return rejectWithValue('Registration failed');
+      throw error;
     }
   }
 );
