@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchContacts } from '../../redux/contacts/contactsOperations'; 
-import { selectContacts } from '../../redux/contacts/contactsSelectors';
+import { selectFilteredContacts  } from '../../redux/contacts/contactsSelectors';
 import SearchBox from '../../components/SearchBox/SearchBox';
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
+  const contacts = useSelector(selectFilteredContacts );
 
   useEffect(() => {
     dispatch(fetchContacts());
