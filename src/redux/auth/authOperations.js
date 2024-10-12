@@ -62,6 +62,7 @@ export const getCurrentUserThunk = () => async (dispatch, getState) => {
   const token = state.auth.token;
 
   if (!token) {
+    console.warn('No token found. User cannot be fetched.');
     return;
   }
 
