@@ -7,20 +7,18 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 export const register = createAsyncThunk(
   'auth/register',
-  async (credentials) => {
-    const response = await axios.post('/users/signup', credentials);
-    return response.data;
-  }
-);
-
-export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials, { dispatch }) => {
-    const response = await axios.post('/users/login', credentials);
-    // Зберігаємо токен у заголовках для подальших запитів
-    axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    dispatch(loginSuccess(response.data));
-    return response.data;
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/users/signup', credentials);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        if (error.response.data.code === 11000) {
+          return rejectWithValue('Email already in use');
+        }
+      }
+      return rejectWithValue('Registration failed');
+    }
   }
 );
 
@@ -79,5 +77,13 @@ export const getCurrentUserThunk = () => async (dispatch, getState) => {
   }
 };
 
-
+export const login = createAsyncThunk(
+  'auth/login',
+  async (credentials, { dispatch }) => {
+    const response = await axios.post('/users/login', credentials);
+    axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+    dispatch(loginSuccess(response.data));
+    return response.data;
+  }
+);
 
