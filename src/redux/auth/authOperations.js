@@ -5,6 +5,7 @@ import { setCurrentUser, loginSuccess, logoutSuccess } from './authSlice';
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+// Реєстрація
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials) => {
@@ -12,11 +13,13 @@ export const register = createAsyncThunk(
       const response = await axios.post('/users/signup', credentials);
       return response.data;
     } catch (error) {
-      console.error('Registration error:', error);  
-            }
+      console.error('Registration error:', error);
+      throw error; 
+    }
   }
 );
 
+// Логін
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { dispatch }) => {
@@ -26,12 +29,13 @@ export const login = createAsyncThunk(
       dispatch(loginSuccess(response.data));
       return response.data;
     } catch (error) {
-      console.error('Login error:', error); 
+      console.error('Login error:', error);
       throw error; 
     }
   }
 );
 
+// Логаут
 export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { getState, dispatch }) => {
@@ -44,14 +48,15 @@ export const logout = createAsyncThunk(
         await axios.post('/users/logout');
         dispatch(logoutSuccess());
       } catch (error) {
-        console.error('Logout error:', error);  
+        console.error('Logout error:', error);
       } finally {
-        delete axios.defaults.headers.common.Authorization;  
+        delete axios.defaults.headers.common.Authorization;
       }
     }
   }
 );
 
+// Оновлення даних користувача
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, { getState }) => {
@@ -68,10 +73,12 @@ export const refreshUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error('Error refreshing user:', error);
+      throw error;
     }
   }
 );
 
+// Отримання поточного користувача
 export const getCurrentUserThunk = () => async (dispatch, getState) => {
   const state = getState();
   const token = state.auth.token;
@@ -87,11 +94,28 @@ export const getCurrentUserThunk = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
     dispatch(setCurrentUser(response.data));
   } catch (error) {
     console.error('Error fetching current user:', error);
   }
 };
 
+// Функція для отримання поточного користувача з локального сховища
+export const fetchCurrentUser = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('No token found.'); 
+    }
 
+    try {
+        const response = await axios.get('/users/current', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching current user:', error);
+        throw error; 
+    }
+};

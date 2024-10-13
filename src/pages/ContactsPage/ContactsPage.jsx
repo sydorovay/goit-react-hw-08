@@ -5,6 +5,7 @@ import { selectFilteredContacts } from '../../redux/contacts/contactsSelectors';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import styles from './ContactsPage.module.css';
 import ContactForm from '../../components/ContactForm/ContactForm';
+
 const ContactsPage = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectFilteredContacts);
