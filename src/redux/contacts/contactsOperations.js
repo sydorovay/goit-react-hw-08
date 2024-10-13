@@ -8,51 +8,70 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, thu
   const token = state.auth.token;
 
   if (!token) {
+    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
+    console.log('Token used for fetching contacts:', token);
     const response = await axios.get('/contacts', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    console.error('Error fetching contacts:', error);
+    return thunkAPI.rejectWithValue(
+      error.response ? error.response.data : error.message
+    );
   }
 });
 
+// Add New Contact
 export const addNewContact = createAsyncThunk('contacts/add', async (contact, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
   if (!token) {
+    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
+    console.log('Token used for adding contact:', token);
     const response = await axios.post('/contacts', contact, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    console.error('Error adding contact:', error);
+    return thunkAPI.rejectWithValue(
+      error.response ? error.response.data : error.message
+    );
   }
 });
 
+// Delete Contact
 export const deleteContact = createAsyncThunk('contacts/delete', async (contactId, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
   if (!token) {
+    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
+    console.log('Token used for deleting contact:', token);
     await axios.delete(`/contacts/${contactId}`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
     return { id: contactId };
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    console.error('Error deleting contact:', error);
+    return thunkAPI.rejectWithValue(
+      error.response ? error.response.data : error.message
+    );
   }
 });

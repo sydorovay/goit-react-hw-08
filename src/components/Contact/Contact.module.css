@@ -1,47 +1,45 @@
-.contact{
+.contactCard {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  border: 2px solid #000000;
-  border-radius: 5px;
-}
-
-.contactItem:hover {
-  border-color: #5787BD;
-  color: #5787BD;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .contactInfo {
   display: flex;
   flex-direction: column;
-
 }
 
 .contactName {
+  font-size: 1.2em;
   font-weight: bold;
+  color: #333;
 }
 
 .contactNumber {
-  color: gray;
+  color: #666;
 }
 
-.deleteButton {
-  background-color: ;
-  color: black;
-  border: 1px solid;
-  border-color: black;
+.contactActions {
+  display: flex;
+  gap: 10px;
+}
+
+.contactButton {
   padding: 5px 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 50px;
+  transition: background-color 0.3s ease;
 }
 
-.deleteButton:hover {
-  background-color: #b4b4b4;
-  color: white;
-}
-
-.user,
-.phone {
-  margin-right: 5px;
+.contactButton:hover {
+  background-color: #2980b9;
 }
