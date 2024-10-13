@@ -12,13 +12,22 @@ export const register = createAsyncThunk(
       const response = await axios.post('/users/signup', credentials);
       return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        const { keyPattern } = error.response.data;
-        if (keyPattern && keyPattern.email) {
-          throw new Error('This email address is already registered.');
-        }
-      }
-      throw error;
+      console.error('Registration error:', error);  
+            }
+  }
+);
+
+export const login = createAsyncThunk(
+  'auth/login',
+  async (credentials, { dispatch }) => {
+    try {
+      const response = await axios.post('/users/login', credentials);
+      axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+      dispatch(loginSuccess(response.data));
+      return response.data;
+    } catch (error) {
+      console.error('Login error:', error); 
+      throw error; 
     }
   }
 );
@@ -27,12 +36,18 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { getState, dispatch }) => {
     const state = getState();
-    const token = state.auth.token;  // Отримуємо токен з Redux
+    const token = state.auth.token;
+
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      await axios.post('/users/logout');
-      delete axios.defaults.headers.common.Authorization;
-      dispatch(logoutSuccess());
+      try {
+        await axios.post('/users/logout');
+        dispatch(logoutSuccess());
+      } catch (error) {
+        console.error('Logout error:', error);  
+      } finally {
+        delete axios.defaults.headers.common.Authorization;  
+      }
     }
   }
 );
@@ -79,13 +94,4 @@ export const getCurrentUserThunk = () => async (dispatch, getState) => {
   }
 };
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials, { dispatch }) => {
-    const response = await axios.post('/users/login', credentials);
-    axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    dispatch(loginSuccess(response.data));
-    return response.data;
-  }
-);
 

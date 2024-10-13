@@ -4,19 +4,18 @@ import { fetchContacts, deleteContact } from '../../redux/contacts/contactsOpera
 import { selectFilteredContacts } from '../../redux/contacts/contactsSelectors';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import styles from './ContactsPage.module.css';
-
+import ContactForm from '../../components/ContactForm/ContactForm';
 const ContactsPage = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectFilteredContacts);
-
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
-
   return (
     <div className={styles.contactsPage}>
       <h2>Contacts</h2>
       <SearchBox />
+      <ContactForm />
       {contacts.length === 0 ? (
         <p>No contacts available</p>
       ) : (
@@ -37,5 +36,4 @@ const ContactsPage = () => {
     </div>
   );
 };
-
 export default ContactsPage;
