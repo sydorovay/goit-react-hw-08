@@ -16,7 +16,7 @@ const LoginPage = () => {
       await dispatch(login({ email, password })).unwrap();
       navigate('/contacts');
     } catch (error) {
-      // Виводимо специфічне повідомлення про помилку
+
       setErrorMessage(error.response?.data?.message || 'Login failed. Please check your credentials.');
       console.error('Login failed: ', error);
     }
