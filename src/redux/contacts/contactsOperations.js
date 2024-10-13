@@ -8,12 +8,10 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, thu
   const token = state.auth.token;
 
   if (!token) {
-    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
-    console.log('Token used for fetching contacts:', token);
     const response = await axios.get('/contacts', {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -34,12 +32,10 @@ export const addNewContact = createAsyncThunk('contacts/add', async (contact, th
   const token = state.auth.token;
 
   if (!token) {
-    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
-    console.log('Token used for adding contact:', token);
     const response = await axios.post('/contacts', contact, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -58,12 +54,10 @@ export const deleteContact = createAsyncThunk('contacts/delete', async (contactI
   const token = state.auth.token;
 
   if (!token) {
-    console.log('No token found');
     return thunkAPI.rejectWithValue('No token');
   }
 
   try {
-    console.log('Token used for deleting contact:', token);
     await axios.delete(`/contacts/${contactId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
