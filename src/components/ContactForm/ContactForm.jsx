@@ -7,13 +7,11 @@ const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [email, setEmail] = useState(''); 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNewContact({ name, number, email })); 
+    dispatch(addNewContact({ name, number })); 
     setName('');
     setNumber('');
-    setEmail('');
   };
 
   return (
@@ -33,15 +31,6 @@ const ContactForm = () => {
           type="tel"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           required
         />
       </label>
