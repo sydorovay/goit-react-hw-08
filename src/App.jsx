@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { getCurrentUserThunk } from './redux/auth/authOperations';
+import { getCurrentUserThunk } from './redux/auth/operations';
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';

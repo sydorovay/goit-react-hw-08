@@ -1,6 +1,6 @@
 import { useState } from 'react'; 
 import { useDispatch } from 'react-redux';
-import { register } from '../../redux/auth/authOperations';
+import { register } from '../../redux/auth/operations';
 
 const RegistrationPage = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const RegistrationPage = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     try {
       await dispatch(register(credentials)).unwrap();
