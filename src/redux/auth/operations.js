@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setCurrentUser, loginSuccess, logoutSuccess } from './authSlice';
+import { setCurrentUser, loginSuccess, logoutSuccess } from './';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
